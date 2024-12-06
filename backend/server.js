@@ -22,6 +22,10 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
     .catch((err) => console.log(err));
 
 // Routes
+app.get('/', (req, res) => {
+    // console.log("Hitting Route")
+    res.send('Welcome to the Homepage!'); 
+});
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
