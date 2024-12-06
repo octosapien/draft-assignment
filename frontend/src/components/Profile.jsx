@@ -1,31 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { fetchUserOrders } from '../services/api';
 
 const Profile = () => {
-    const [user, setUser] = useState({});
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        // Assume user details are stored in localStorage
-        const userDetails = JSON.parse(localStorage.getItem('user'));
-        setUser(userDetails);
+        const loadOrders = async () => {
+            try {
+                const { data } = await fetchUserOrders();
+                setOrders(data);
+            } catch (err) {
+                console.error('Error fetching orders:', err);
+            }
+        };
 
-        fetchUserOrders().then((res) => setOrders(res.data));
+        loadOrders();
     }, []);
 
     return (
         <div>
-            <h2>Profile</h2>
-            <p>Name: {user.username}</p>
-            <p>Email: {user.email}</p>
-
-            <h3>Order History</h3>
-            {orders.map((order) => (
-                <div key={order._id}>
-                    <p>Order ID: {order._id}</p>
-                    <p>Status: {order.status}</p>
-                </div>
-            ))}
+            <h2>Order History</h2>
+            {orders.length === 0 ? (
+                <p>No orders yet</p>
+            ) : (
+                <ul>
+                    {orders.map((order) => (
+                        <li key={order._id}>
+                            Order #{order._id} - Total: ${order.netPayable} - Status: {order.status}
+                        </li>
+                    ))}
+                </ul>
+            )}
         </div>
     );
 };

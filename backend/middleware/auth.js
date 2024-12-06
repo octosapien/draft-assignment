@@ -1,19 +1,8 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-
-const auth = async (req, res, next) => {
-    try {
-        const token = req.header('Authorization').replace('Bearer ', '');
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const user = await User.findById(decoded.id);
-
-        if (!user) throw new Error();
-
-        req.user = user;
-        next();
-    } catch (err) {
-        res.status(401).json({ message: 'Authentication failed' });
+// middleware/auth.js
+module.exports = (req, res, next) => {
+    if (!req.session.user) {
+        return res.status(401).json({ message: 'Unauthorized' });
     }
+    req.user = req.session.user; // Add user data to req for use in controllers
+    next();
 };
-
-module.exports = auth;
