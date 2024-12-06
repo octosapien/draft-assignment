@@ -8,7 +8,7 @@ exports.getAllVendors = async (req, res) => {
 
         // Extract unique vendors
         const vendorIds = [...new Set(products.map((product) => product.vendor._id))]; // Get unique vendor names
-        console.log(products);
+        // console.log(products);
 
         res.status(200).json(vendorIds); // Return unique vendor names
     } catch (err) {

@@ -10,7 +10,7 @@ const VendorProducts = ({ vendorId }) => {
         const getProducts = async () => {
             try {
                 const response = await fetchProductsByVendor(vendorId); // Fetch products by vendor
-                console.log(response.data);
+                console.log("Here res",response.data);
                 setProducts(response.data);
             } catch (err) {
                 console.error('Error fetching products:', err);

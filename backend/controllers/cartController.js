@@ -3,10 +3,13 @@ const Product = require('../models/Product');
 
 // Get Cart
 exports.getCart = async (req, res) => {
+    console.log("Cart req:", req.user);  // Log user data
+
     try {
         const cart = await Cart.findOne({ user: req.user.id }).populate('products.product');
         res.status(200).json(cart || { products: [] });
     } catch (err) {
+        console.log("Hello error")
         res.status(500).json({ error: err.message });
     }
 };
