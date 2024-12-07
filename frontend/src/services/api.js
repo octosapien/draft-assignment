@@ -8,7 +8,7 @@ const API = axios.create({
 // API calls for User Authentication
 export const registerUser = (data) => API.post('/users/register', data);
 export const loginUser = (data) => API.post('/users/login', data);
-export const fetchUserOrders = () => API.get('/users/orders');
+// export const fetchUserOrders = () => API.get('/users/orders');
 
 // API calls for Cart
 export const fetchCart = () => API.get('/cart');
@@ -25,5 +25,11 @@ export const fetchVendors = () => API.get('/vendors');
 // export const fetchUserOrders = () => API.get('/order/user/orders'); // Fetch user orders
 // export const updateOrderStatus = (orderId, status) => 
 //     API.post('/order/update-status', { orderId, status });  // Admin update order status
-
+// Place Order
+export const placeOrder = async () => {
+    return await API.post('/orders/place');
+};
+export const fetchUserOrders = async () => {
+    return await API.get('/orders/user/orders');
+};
 export default API;

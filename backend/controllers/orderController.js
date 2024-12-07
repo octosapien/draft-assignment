@@ -6,6 +6,7 @@ const Product = require('../models/Product');
 exports.placeOrder = async (req, res) => {
     try {
         // Fetch the cart for the user
+        console.log(req.user, req.body);
         const cart = await Cart.findOne({ user: req.user.id }).populate('products.product');
         
         if (!cart || cart.products.length === 0) {
@@ -17,9 +18,9 @@ exports.placeOrder = async (req, res) => {
         const orderItems = [];
 
         cart.products.forEach(item => {
-            const product = item.product;
-            const quantity = item.quantity;
-            const price = product.price;
+            const product = item && item.product;
+            const quantity = item && item.quantity;
+            const price = product && product.price;
 
             totalAmount += price * quantity;
 

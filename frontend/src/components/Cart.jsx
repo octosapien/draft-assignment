@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchCart } from '../services/api';
+import { fetchCart ,placeOrder} from '../services/api';
 
 const Cart = () => {
     const [cart, setCart] = useState(null);
@@ -23,6 +23,18 @@ const Cart = () => {
         return <p>Loading cart...</p>;
     }
 
+
+    const handlePlaceOrder = async () => {
+        try {
+            const response = await placeOrder(); // Calls the API to place the order
+            alert(response && response.message); // Notify the user
+            setCart(null); // Reset cart after successful order
+        } catch (err) {
+            console.error('Error placing order:', err);
+            alert('Failed to place order. Please try again.');
+        }
+    };
+
     const totalPrice = cart.products.reduce((total, item) => total + (item.product && item.product.price) * item.quantity, 0);
 
     return (
@@ -36,6 +48,7 @@ const Cart = () => {
                 ))}
             </ul>
             <p>Total: ${totalPrice}</p>
+            <button onClick={handlePlaceOrder}>Place Order</button>
         </div>
     );
 };
