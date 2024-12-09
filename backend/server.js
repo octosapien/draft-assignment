@@ -18,9 +18,12 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:5174',  // Specify the frontend URL
-    credentials: true, // Allow credentials to be sent
+    origin: 'https://dainty-naiad-1c41f1.netlify.app', // Specify the frontend URL
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.) to be sent
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed HTTP methods (optional)
+    allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers (optional)
 }));
+
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI, {
